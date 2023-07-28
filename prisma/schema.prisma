@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String         @id @default(cuid())
+  username     String
+  email        String         @unique
+  password     String
+  created_at   DateTime       @default(now())
+  updated_at   DateTime       @updatedAt
+  Post         Post[]
+  Subscription Subscription[]
+  Comment      Comment[]
+
+  @@map("users")
+}
+
+model Subscription {
+  id        String             @id @default(uuid())
+  startDate DateTime
+  endDate   DateTime
+  isActive  SubscriptionStatus
+  userId    String
+  user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("subscriptions")
+}
+
+model Post {
+  id         Int       @id @default(autoincrement())
+  title      String
+  content    String
+  published  Boolean   @default(false)
+  author     User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId   String
+  upvotes    Int       @default(0)
+  downvotes  Int       @default(0)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  Comment    Comment[]
+}
+
+model Comment {
+  id       Int    @id @default(autoincrement())
+  text     String
+  post     Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId   Int
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId String
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  INACTIVE
+}

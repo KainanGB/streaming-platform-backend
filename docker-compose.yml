@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  api-streaming-platform-pg:
+    image: bitnami/postgresql
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRESQL_USERNAME=streaming
+      - POSTGRESQL_PASSWORD=streaming
+      - POSTGRESQL_DATABASE=streamingplatform
