@@ -1,38 +1,44 @@
 import { Request, Response } from 'express'
-import { FindUserUseCase } from '@/use-cases/users/find-user-use-case'
-import { PrismaUsersRepository } from '@/repositories/users-prisma-repository'
-import { GetAllUseCase } from '@/use-cases/users/get-all-use-case'
-import { RegisterUseCase } from '@/use-cases/users/register-use-case'
+import { FindUserByIdUseCase } from '@/use-cases/users/find-by-id-user-use-case'
+import { GetAllUseCase } from '@/use-cases/users/get-all-user-use-case'
+import { RegisterUseCase } from '@/use-cases/users/register-user-use-case'
 import { DeleteUserUseCase } from '@/use-cases/users/delete-user-use-case'
+import { FindByEmailUseCase } from '@/use-cases/users/find-by-email-user-use-case'
 import { EditUserUseCase } from '@/use-cases/users/edit-user-use-case'
 import { z } from 'zod'
 
-class UsersController {
+export class UsersController {
+  constructor(
+    private registerUser: RegisterUseCase,
+    private getAllUser: GetAllUseCase,
+    private findUserByEmail: FindByEmailUseCase,
+    private findUserById: FindUserByIdUseCase,
+    private deleteUser: DeleteUserUseCase,
+    private editUser: EditUserUseCase
+  ) {}
   async register(req: Request, res: Response) {
     const bodySchema = z.object({
-      username: z.string(),
-      email: z.string(),
+      username: z.string().optional(),
+      email: z.string().email(),
       password: z.string().min(7)
     })
 
     const { username, email, password } = bodySchema.parse(req.body)
 
     try {
-      const userRepository = new PrismaUsersRepository()
-      const registerUseCase = new RegisterUseCase(userRepository)
-      registerUseCase.execute({ username, email, password })
-    } catch (err) {
-      res.status(409).send({
-        message: err
+      const user = await this.registerUser.execute({ username, email, password })
+      res.status(201).send({
+        user
       })
-
-      throw err
+    } catch (err) {
+      const error = err as Error
+      res.status(409).send({
+        message: error.message
+      })
     }
-
-    res.status(201).send()
   }
 
-  async find(req: Request, res: Response) {
+  async findById(req: Request, res: Response) {
     const paramsSchema = z.object({
       id: z.string()
     })
@@ -40,33 +46,46 @@ class UsersController {
     const { id } = paramsSchema.parse(req.params)
 
     try {
-      const usersRepository = new PrismaUsersRepository()
-      const findUser = new FindUserUseCase(usersRepository)
-
-      const user = await findUser.execute(id)
+      const user = await this.findUserById.execute(id)
 
       res.status(202).send({ user })
-    } catch (error) {
-      console.log('get by id', error)
+    } catch (err) {
+      const error = err as Error
+      res.status(404).send({
+        message: error.message
+      })
+    }
+  }
+
+  async findByEmail(req: Request, res: Response) {
+    const paramsSchema = z.object({
+      id: z.string()
+    })
+
+    const { id } = paramsSchema.parse(req.params)
+
+    try {
+      const user = await this.findUserByEmail.execute(id)
+
+      res.status(202).send({ user })
+    } catch (err) {
+      const error = err as Error
+      res.status(404).send({ message: error.message })
     }
 
-    res.status(201).send()
+    res.status(200).send()
   }
 
   async getAll(req: Request, res: Response) {
     try {
-      const usersRepository = new PrismaUsersRepository()
-      const getAllUseCase = new GetAllUseCase(usersRepository)
-      const users = await getAllUseCase.execute()
+      const users = await this.getAllUser.execute()
 
-      res.status(200).send({
+      res.status(200).json({
         users
       })
     } catch (error) {
       console.log('deu ruim', error)
     }
-
-    res.status(200).send()
   }
 
   async delete(req: Request, res: Response) {
@@ -77,17 +96,15 @@ class UsersController {
 
       const { id } = paramsSchema.parse(req.params)
 
-      const usersRepository = new PrismaUsersRepository()
-      const deleteUser = new DeleteUserUseCase(usersRepository)
-      await deleteUser.execute(id)
+      await this.deleteUser.execute(id)
 
-      res.status(200).send({
-        message: 'User deleted'
+      res.status(204).send({
+        message: 'user has been deleted'
       })
-    } catch (error) {
-      console.log('delete', error)
+    } catch (err) {
+      const error = err as Error
+      res.status(404).send({ message: error.message })
     }
-    res.status(200).send()
   }
 
   async edit(req: Request, res: Response) {
@@ -97,7 +114,7 @@ class UsersController {
 
     const bodySchema = z.object({
       username: z.string(),
-      email: z.string()
+      email: z.string().email()
     })
 
     const bodyData = bodySchema.parse(req.body)
@@ -105,23 +122,12 @@ class UsersController {
     const { id } = paramsSchema.parse(req.params)
 
     try {
-      const usersRepository = new PrismaUsersRepository()
-      const findUser = new FindUserUseCase(usersRepository)
+      await this.editUser.execute(bodyData, id)
 
-      const userFound = await findUser.execute(id)
-
-      const editUserUseCase = new EditUserUseCase(usersRepository)
-
-      editUserUseCase.execute(bodyData, userFound)
-    } catch (error) {
-      console.log('edit user', error)
-      res.status(404).send({
-        message: 'user do not exists'
-      })
+      res.status(202).send()
+    } catch (err) {
+      const error = err as Error
+      res.status(404).send({ message: error.message })
     }
-
-    res.status(202).send()
   }
 }
-
-export default new UsersController()

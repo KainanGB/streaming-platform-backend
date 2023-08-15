@@ -1,43 +1,61 @@
 import { prisma } from '@/lib/prisma'
 import { UsersRepository } from './users-repository'
-import { User } from '@prisma/client'
 import { IUser } from '@/@types/user'
 
 export class PrismaUsersRepository implements UsersRepository {
-  async create(data: IUser): Promise<void> {
-    await prisma.user.create({
+  async create(data: IUser) {
+    const user = await prisma.user.create({
       data: {
         ...data
       }
     })
-  }
-  async find(id: string): Promise<User | null> {
-    const user = await prisma.user.findUnique({
-      where: { id }
-    })
+
     return user
   }
 
-  async delete(id: string): Promise<void> {
+  async findByEmail(email: string) {
+    const user = await prisma.user.findUnique({
+      where: { email },
+      include: {
+        refresh_token: true
+      }
+    })
+
+    return user
+  }
+
+  async findById(id: string) {
+    const user = await prisma.user.findUnique({
+      where: { id }
+    })
+    if (!user) {
+      return null
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...userData } = user
+    return userData
+  }
+
+  async delete(id: string) {
     await prisma.user.delete({
       where: { id }
     })
   }
 
-  async edit(data: Omit<IUser, 'password'>, userData: User): Promise<User | null> {
+  async edit(data: Omit<IUser, 'password'>, id: string) {
     const user = await prisma.user.update({
       where: {
-        id: userData.id
+        id
       },
       data: {
-        ...userData,
         ...data
       }
     })
     return user
   }
 
-  async getAll(): Promise<User[] | null> {
+  async getAll() {
     const user = await prisma.user.findMany()
     return user
   }

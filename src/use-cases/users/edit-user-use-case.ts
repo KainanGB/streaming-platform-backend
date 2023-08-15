@@ -1,11 +1,16 @@
 import { IUser } from '@/@types/user'
-import { PrismaUsersRepository } from '@/repositories/users-prisma-repository'
-import { User } from '@prisma/client'
+import { UsersRepository } from '@/repositories/users-repository'
 
 export class EditUserUseCase {
-  constructor(private usersRepository: PrismaUsersRepository) {}
+  constructor(private usersRepository: UsersRepository) {}
 
-  async execute(data: Omit<IUser, 'password'>, userData: User) {
-    await this.usersRepository.edit(data, userData)
+  async execute(data: Omit<IUser, 'password'>, id: string) {
+    const userExists = await this.usersRepository.findById(id)
+
+    if (!userExists) {
+      throw new Error('user does not exists')
+    }
+
+    await this.usersRepository.edit(data, id)
   }
 }
