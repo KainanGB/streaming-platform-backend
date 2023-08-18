@@ -10,7 +10,7 @@ export class AuthenticateController {
     private authenticateUseCase: AuthenticateUseCase,
     private generateAcessToken: GenerateAccessToken,
     private generateRefreshToken: GenerateRefreshToken,
-    private deleteToken: DeleteRefreshTokenUseCase
+    private deleteTokenUseCase: DeleteRefreshTokenUseCase
   ) {}
 
   async authenticate(req: Request, res: Response) {
@@ -29,7 +29,7 @@ export class AuthenticateController {
       const accessToken = await this.generateAcessToken.execute(user.id)
 
       if (user.refresh_token) {
-        await this.deleteToken.execute(user.id)
+        await this.deleteTokenUseCase.execute(user.id)
 
         const refreshToken = await this.generateRefreshToken.execute(user.id)
 
