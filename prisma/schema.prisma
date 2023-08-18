@@ -17,7 +17,7 @@ model User {
   Post          Post[]
   Subscription  Subscription[]
   Comment       Comment[]
-  role          UserRoles      @default(MEMBER)
+  role          Roles          @default(MEMBER)
   refresh_token RefreshToken?
 
   @@map("users")
@@ -75,7 +75,7 @@ enum SubscriptionStatus {
   INACTIVE
 }
 
-enum UserRoles {
+enum Roles {
   MEMBER
   ADMIN
 }

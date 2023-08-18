@@ -26,7 +26,7 @@ export class AuthenticateController {
         password
       })
 
-      const accessToken = await this.generateAcessToken.execute(user.id)
+      const accessToken = await this.generateAcessToken.execute(user.id, user.role)
 
       if (user.refresh_token) {
         await this.deleteTokenUseCase.execute(user.id)

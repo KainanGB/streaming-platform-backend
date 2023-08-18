@@ -5,7 +5,7 @@ import { RefreshTokenUseCase } from '@/use-cases/authentication/refresh-token-us
 export class RefreshController {
   constructor(private refreshToken: RefreshTokenUseCase) {}
 
-  async execute(req: Request, res: Response) {
+  async refresh(req: Request, res: Response) {
     try {
       const jwtBodySchema = z.object({
         token: z.string()
