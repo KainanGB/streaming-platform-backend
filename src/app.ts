@@ -14,5 +14,5 @@ app.use(express.json())
 app.use(authenticateRoutes)
 app.use(refreshRoutes)
 
-app.use(verifyJWT)
 app.use(usersRouter)
+app.use(verifyJWT)
