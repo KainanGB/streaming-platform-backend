@@ -1,5 +1,5 @@
-import { FindRefreshTokenByIdUseCase } from './../use-cases/authentication/find-refresh-token-by-id-use-case'
-import { RefreshController } from '@/controllers/users-controllers/refresh-controller'
+import { FindRefreshTokenByIdUseCase } from '../../../use-cases/authentication/find-refresh-token-by-id-use-case'
+import { RefreshController } from '@/controllers/user/refresh'
 import { GenerateAccessToken } from '@/providers/generateAccessToken'
 import { GenerateRefreshToken } from '@/providers/generateRefreshToken'
 import { AuthUserRepository } from '@/repositories/auth-prisma-repository'

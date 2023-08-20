@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { authenticateControllerFactory } from '@/factories/authenticate-controller-factory'
+import { authenticateControllerFactory } from '@/controllers/user/factories/make-authenticate-controller-factory'
 
 const router = Router()
 

@@ -1,6 +1,6 @@
 import { IUser } from '@/@types/user'
 import { UsersRepository } from '../users-repository'
-import { Prisma, UserRoles } from '@prisma/client'
+import { Prisma, Roles } from '@prisma/client'
 
 const userWithRefreshToken = Prisma.validator<Prisma.UserArgs>()({
   include: { refresh_token: true }
@@ -23,7 +23,7 @@ export class InMemoryUsersRepository implements UsersRepository {
       password: data.password,
       created_at: new Date(),
       updated_at: new Date(),
-      role: 'MEMBER' as UserRoles,
+      role: 'MEMBER' as Roles,
       refresh_token: refreshToken
     }
 

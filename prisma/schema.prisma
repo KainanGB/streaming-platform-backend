@@ -64,7 +64,7 @@ model Comment {
 model RefreshToken {
   id        String @id @default(uuid())
   expiresIn Int
-  user      User   @relation(fields: [userId], references: [id])
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String @unique
 
   @@map("refresh_token")

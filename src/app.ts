@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
-import { usersRouter } from './routes/users-routes'
+import { usersRouter } from './routes/users'
 import { authenticateRoutes } from './routes/authenticate'
 import { refreshRoutes } from './routes/refresh'
 import { verifyJWT } from './middlewares/verify-jwt'

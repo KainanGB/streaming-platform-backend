@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { RefreshTokenUseCase } from '@/use-cases/authentication/refresh-token-use-case'
 
 export class RefreshController {
-  constructor(private refreshToken: RefreshTokenUseCase) {}
+  constructor(private refreshTokenUseCase: RefreshTokenUseCase) {}
 
   async refresh(req: Request, res: Response) {
     try {
@@ -13,7 +13,7 @@ export class RefreshController {
 
       const { token } = jwtBodySchema.parse(req.body)
 
-      const { refreshToken, accessToken } = await this.refreshToken.execute(token)
+      const { refreshToken, accessToken } = await this.refreshTokenUseCase.execute(token)
 
       return res
         .send({

@@ -1,5 +1,5 @@
+import { refreshControllerFactory } from '@/controllers/user/factories/make-refresh-controller-factory'
 import { Router } from 'express'
-import { refreshControllerFactory } from '@/factories/refresh-controller-factory'
 
 const router = Router()
 
