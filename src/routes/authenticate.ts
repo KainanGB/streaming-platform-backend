@@ -5,6 +5,6 @@ const router = Router()
 
 const authenticateController = authenticateControllerFactory()
 
-router.post('/sessions', (req, res) => authenticateController.authenticate(req, res))
+router.post('/sessions', (req, res, next) => authenticateController.authenticate(req, res, next))
 
 export const authenticateRoutes = router

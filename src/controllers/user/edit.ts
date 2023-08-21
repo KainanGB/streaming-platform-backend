@@ -1,11 +1,13 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { EditUserUseCase } from '@/use-cases/users/edit-user-use-case'
 import { z } from 'zod'
+import HttpStatusCode from '@/errors/http-status-code'
+import { AppError } from '@/errors/app-error'
 
 export class EditController {
   constructor(private editUser: EditUserUseCase) {}
 
-  async edit(req: Request, res: Response) {
+  async edit(req: Request, res: Response, next: NextFunction) {
     const paramsSchema = z.object({
       id: z.string()
     })
@@ -22,10 +24,10 @@ export class EditController {
     try {
       await this.editUser.execute(bodyData, id)
 
-      res.status(202).send()
+      return res.status(202).send()
     } catch (err) {
-      const error = err as Error
-      res.status(404).send({ message: error.message })
+      const Error = err as Error
+      next(new AppError(Error.message, HttpStatusCode.NOT_FOUND, 'error while trying to edit user', true))
     }
   }
 }

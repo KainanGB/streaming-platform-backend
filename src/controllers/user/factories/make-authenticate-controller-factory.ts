@@ -1,6 +1,6 @@
 import { AuthenticateController } from '@/controllers/user/authenticate'
-import { GenerateAccessToken } from '@/providers/generateAccessToken'
-import { GenerateRefreshToken } from '@/providers/generateRefreshToken'
+import { GenerateAccessToken } from '@/providers/generate-access-token'
+import { GenerateRefreshToken } from '@/providers/generate-refresh-token'
 import { AuthUserRepository } from '@/repositories/auth-prisma-repository'
 
 import { PrismaUsersRepository } from '@/repositories/users-prisma-repository'

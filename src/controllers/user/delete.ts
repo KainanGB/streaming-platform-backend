@@ -1,11 +1,13 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { DeleteUserUseCase } from '@/use-cases/users/delete-user-use-case'
 import { z } from 'zod'
+import { AppError } from '@/errors/app-error'
+import HttpStatusCode from '@/errors/http-status-code'
 
 export class DeleteController {
   constructor(private deleteUser: DeleteUserUseCase) {}
 
-  async delete(req: Request, res: Response) {
+  async delete(req: Request, res: Response, next: NextFunction) {
     try {
       const paramsSchema = z.object({
         id: z.string()
@@ -15,12 +17,10 @@ export class DeleteController {
 
       await this.deleteUser.execute(id)
 
-      res.status(204).send({
-        message: 'user has been deleted'
-      })
+      return res.status(204).send()
     } catch (err) {
-      const error = err as Error
-      res.status(404).send({ message: error.message })
+      const Error = err as Error
+      next(new AppError(Error.message, HttpStatusCode.NOT_FOUND, 'error while trying to delete user', true))
     }
   }
 }

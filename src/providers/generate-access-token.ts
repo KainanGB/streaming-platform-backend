@@ -1,7 +1,7 @@
 import { sign } from 'jsonwebtoken'
 
 export class GenerateAccessToken {
-  async execute(userId: string, role: string) {
+  async execute(userId: string, role = 'MEMBER') {
     const token = sign(
       {
         role

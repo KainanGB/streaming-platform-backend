@@ -1,11 +1,13 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { z } from 'zod'
 import { RefreshTokenUseCase } from '@/use-cases/authentication/refresh-token-use-case'
+import { AppError } from '@/errors/app-error'
+import HttpStatusCode from '@/errors/http-status-code'
 
 export class RefreshController {
   constructor(private refreshTokenUseCase: RefreshTokenUseCase) {}
 
-  async refresh(req: Request, res: Response) {
+  async refresh(req: Request, res: Response, next: NextFunction) {
     try {
       const jwtBodySchema = z.object({
         token: z.string()
@@ -21,8 +23,9 @@ export class RefreshController {
           accessToken
         })
         .status(200)
-    } catch (error) {
-      return res.status(400).send('Invalid refresh token.')
+    } catch (err) {
+      const Error = err as Error
+      next(new AppError(Error.message, HttpStatusCode.CONFLICT, 'error while trying to refresh token', true))
     }
   }
 }

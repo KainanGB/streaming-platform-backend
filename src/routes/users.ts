@@ -15,10 +15,14 @@ const deleteController = deleteControllerFactory()
 const findByIdController = findByIdControllerFactory()
 const getAllController = getAllControllerFactory()
 
-router.post('/users', (req, res) => registerController.register(req, res))
-router.put('/users/:id', verifyJWT, (req, res) => editController.edit(req, res))
-router.delete('/users/:id', verifyJWT, (req, res) => deleteController.delete(req, res))
-router.get('/users/:id', checkIfAdmin, verifyJWT, (req, res) => findByIdController.findById(req, res))
-router.get('/users', checkIfAdmin, (req, res) => getAllController.getAll(req, res))
+router.post('/users', (req, res, next) => registerController.register(req, res, next))
+
+router.put('/users/:id', verifyJWT, (req, res, next) => editController.edit(req, res, next))
+
+router.delete('/users/:id', verifyJWT, (req, res, next) => deleteController.delete(req, res, next))
+
+router.get('/users/:id', checkIfAdmin, verifyJWT, (req, res, next) => findByIdController.findById(req, res, next))
+
+router.get('/users', checkIfAdmin, (req, res, next) => getAllController.getAll(req, res, next))
 
 export const usersRouter = router

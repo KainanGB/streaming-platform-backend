@@ -1,9 +1,11 @@
-import { Request, Response } from 'express'
-import { GenerateAccessToken } from '@/providers/generateAccessToken'
-import { GenerateRefreshToken } from '@/providers/generateRefreshToken'
+import { NextFunction, Request, Response } from 'express'
+import { GenerateAccessToken } from '@/providers/generate-access-token'
+import { GenerateRefreshToken } from '@/providers/generate-refresh-token'
 import { AuthenticateUseCase } from '@/use-cases/authentication/auth-use-case'
 import { z } from 'zod'
 import { DeleteRefreshTokenUseCase } from '@/use-cases/authentication/delete-refresh-token-use-case'
+import { AppError } from '@/errors/app-error'
+import HttpStatusCode from '@/errors/http-status-code'
 
 export class AuthenticateController {
   constructor(
@@ -13,7 +15,7 @@ export class AuthenticateController {
     private deleteTokenUseCase: DeleteRefreshTokenUseCase
   ) {}
 
-  async authenticate(req: Request, res: Response) {
+  async authenticate(req: Request, res: Response, next: NextFunction) {
     const authenticateBody = z.object({
       email: z.string().email(),
       password: z.string().min(7)
@@ -40,10 +42,7 @@ export class AuthenticateController {
 
       return res.status(200).send({ accessToken, refreshToken })
     } catch (err) {
-      const error = err as Error
-      res.status(409).send({
-        message: error.message
-      })
+      next(new AppError('Unauthorized', HttpStatusCode.UNAUTHORIZED, 'error while trying to authenticate', true))
     }
   }
 }
