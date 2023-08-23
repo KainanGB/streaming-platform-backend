@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 import { z } from 'zod'
 import { RefreshTokenUseCase } from '@/use-cases/authentication/refresh-token-use-case'
 import { AppError } from '@/errors/app-error'
-import HttpStatusCode from '@/errors/http-status-code'
+import { HttpStatusCode } from '@/errors/http-status-code'
 
 export class RefreshController {
   constructor(private refreshTokenUseCase: RefreshTokenUseCase) {}

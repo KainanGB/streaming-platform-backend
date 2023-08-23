@@ -5,7 +5,7 @@ import { AuthenticateUseCase } from '@/use-cases/authentication/auth-use-case'
 import { z } from 'zod'
 import { DeleteRefreshTokenUseCase } from '@/use-cases/authentication/delete-refresh-token-use-case'
 import { AppError } from '@/errors/app-error'
-import HttpStatusCode from '@/errors/http-status-code'
+import { HttpStatusCode } from '@/errors/http-status-code'
 
 export class AuthenticateController {
   constructor(

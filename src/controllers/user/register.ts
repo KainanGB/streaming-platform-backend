@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 import { z } from 'zod'
 import { RegisterUseCase } from '@/use-cases/users/register-user-use-case'
 import { AppError } from '@/errors/app-error'
-import HttpStatusCode from '@/errors/http-status-code'
+import { HttpStatusCode } from '@/errors/http-status-code'
 
 export class RegisterController {
   constructor(private registerUser: RegisterUseCase) {}

@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 import { DeleteUserUseCase } from '@/use-cases/users/delete-user-use-case'
 import { z } from 'zod'
 import { AppError } from '@/errors/app-error'
-import HttpStatusCode from '@/errors/http-status-code'
+import { HttpStatusCode } from '@/errors/http-status-code'
 
 export class DeleteController {
   constructor(private deleteUser: DeleteUserUseCase) {}

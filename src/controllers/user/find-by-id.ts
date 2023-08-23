@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 import { FindUserByIdUseCase } from '@/use-cases/users/find-by-id-user-use-case'
 import { z } from 'zod'
 import { AppError } from '@/errors/app-error'
-import HttpStatusCode from '@/errors/http-status-code'
+import { HttpStatusCode } from '@/errors/http-status-code'
 
 export class FindByIdController {
   constructor(private findUserById: FindUserByIdUseCase) {}

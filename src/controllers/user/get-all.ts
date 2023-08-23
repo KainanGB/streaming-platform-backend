@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { GetAllUseCase } from '@/use-cases/users/get-all-user-use-case'
 import { AppError } from '@/errors/app-error'
-import HttpStatusCode from '@/errors/http-status-code'
+import { HttpStatusCode } from '@/errors/http-status-code'
 
 export class GetAllController {
   constructor(private getAllUser: GetAllUseCase) {}

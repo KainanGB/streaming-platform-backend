@@ -1,4 +1,4 @@
-import HttpStatusCode from './http-status-code'
+import { HttpStatusCode } from './http-status-code'
 
 export class AppError extends Error {
   public readonly name: string
