@@ -20,7 +20,7 @@ export class FindByEmailController {
       return res.status(200).send({ user })
     } catch (err) {
       const Error = err as Error
-      next(new AppError(Error.message, HttpStatusCode.NOT_FOUND, 'error while trying to delete user', true))
+      next(new AppError(Error.message, HttpStatusCode.NOT_FOUND, 'error while trying to find an user by email', true))
     }
   }
 }

@@ -3,12 +3,12 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id            String         @id @default(cuid())
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
   username      String?
   email         String         @unique
   password      String
@@ -24,23 +24,23 @@ model User {
 }
 
 model Subscription {
-  id        String             @id @default(uuid())
+  id        String             @id @default(auto()) @map("_id") @db.ObjectId
   startDate DateTime
   endDate   DateTime
   isActive  SubscriptionStatus
-  userId    String
   user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String             @db.ObjectId
 
   @@map("subscriptions")
 }
 
 model Post {
-  id         Int       @id @default(autoincrement())
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
   title      String
-  content    String
+  body       String
   published  Boolean   @default(false)
   author     User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  authorId   String
+  authorId   String    @db.ObjectId
   upvotes    Int       @default(0)
   downvotes  Int       @default(0)
   created_at DateTime  @default(now())
@@ -51,21 +51,21 @@ model Post {
 }
 
 model Comment {
-  id       Int    @id @default(autoincrement())
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
   text     String
   post     Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
-  postId   Int
+  postId   String @db.ObjectId
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  authorId String
+  authorId String @db.ObjectId
 
   @@map("comments")
 }
 
 model RefreshToken {
-  id        String @id @default(uuid())
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
   expiresIn Int
   user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String @unique
+  userId    String @unique @db.ObjectId
 
   @@map("refresh_token")
 }
