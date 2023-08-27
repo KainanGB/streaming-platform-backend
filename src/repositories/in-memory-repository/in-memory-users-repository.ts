@@ -1,18 +1,21 @@
 import { IUser } from '@/@types/user'
-import { UsersRepository } from '../users-repository'
-import { Prisma, Roles } from '@prisma/client'
-
-const userWithRefreshToken = Prisma.validator<Prisma.UserArgs>()({
-  include: { refresh_token: true }
-})
-type UserWithRefreshToken = Prisma.UserGetPayload<typeof userWithRefreshToken>
+import { UserWithRefreshTokenAndSubscription, UsersRepository } from '../users-repository'
+import { Roles, SubscriptionStatus } from '@prisma/client'
 
 export class InMemoryUsersRepository implements UsersRepository {
-  public users: UserWithRefreshToken[] = []
+  public users: UserWithRefreshTokenAndSubscription[] = []
   async create(data: IUser) {
     const refreshToken = {
       id: 'abcasdds',
       expiresIn: 20,
+      userId: 'teste-id'
+    }
+
+    const subscription = {
+      id: 'teste-id',
+      startDate: new Date(),
+      endDate: new Date(),
+      isActive: 'INACTIVE' as SubscriptionStatus,
       userId: 'teste-id'
     }
 
@@ -24,7 +27,8 @@ export class InMemoryUsersRepository implements UsersRepository {
       created_at: new Date(),
       updated_at: new Date(),
       role: 'MEMBER' as Roles,
-      refresh_token: refreshToken
+      refresh_token: refreshToken,
+      Subscription: subscription
     }
 
     this.users.push(user)

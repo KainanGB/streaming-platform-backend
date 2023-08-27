@@ -1,15 +1,16 @@
 import { IUser } from '@/@types/user'
 import { Prisma, User } from '@prisma/client'
 
-const userWithRefreshToken = Prisma.validator<Prisma.UserArgs>()({
-  include: { refresh_token: true }
+const userWithRefreshTokenAndSubscription = Prisma.validator<Prisma.UserArgs>()({
+  include: { refresh_token: true, Subscription: true }
 })
-type UserWithRefreshToken = Prisma.UserGetPayload<typeof userWithRefreshToken>
+
+export type UserWithRefreshTokenAndSubscription = Prisma.UserGetPayload<typeof userWithRefreshTokenAndSubscription>
 
 export interface UsersRepository {
   create(data: IUser): Promise<User>
-  findByEmail(email: string): Promise<UserWithRefreshToken | null>
-  findById(id: string): Promise<Omit<User, 'password'> | null>
+  findByEmail(email: string): Promise<UserWithRefreshTokenAndSubscription | null>
+  findById(id: string): Promise<Omit<UserWithRefreshTokenAndSubscription, 'password'> | null>
   edit(data: Omit<IUser, 'password'>, id: string): Promise<User | null>
   delete(id: string): Promise<void>
   getAll(): Promise<User[] | null>

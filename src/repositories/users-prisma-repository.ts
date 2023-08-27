@@ -17,7 +17,8 @@ export class PrismaUsersRepository implements UsersRepository {
     const user = await prisma.user.findUnique({
       where: { email },
       include: {
-        refresh_token: true
+        refresh_token: true,
+        Subscription: true
       }
     })
 
@@ -26,7 +27,11 @@ export class PrismaUsersRepository implements UsersRepository {
 
   async findById(id: string) {
     const user = await prisma.user.findUnique({
-      where: { id }
+      where: { id },
+      include: {
+        refresh_token: true,
+        Subscription: true
+      }
     })
     if (!user) {
       return null
