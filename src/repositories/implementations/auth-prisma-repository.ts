@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import { AuthRepository } from './auth-repository'
+import { AuthRepository } from '../auth-repository'
 
 export class AuthUserRepository implements AuthRepository {
   async refresh(userId: string, expiresIn: number) {
