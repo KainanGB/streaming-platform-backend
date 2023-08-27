@@ -1,19 +1,19 @@
-import { IUpdatePost, PostWithCount, UsersPostRepository } from '../post-repository'
+import { ICreatePost, IUpdatePost, PostWithCount, UsersPostRepository } from '../post-repository'
 
 export class InMemoryPostRepository implements UsersPostRepository {
   public posts: PostWithCount[] = []
 
-  async create() {
+  async create({ author, authorId, body, title }: ICreatePost) {
     const post = {
       id: 'teste-id',
-      title: 'novo post',
-      body: 'texto post',
       upvotes: 1,
       downvotes: 0,
       created_at: new Date(),
       updated_at: new Date(),
-      author: 'fulano',
-      authorId: 'fulano-id',
+      author,
+      authorId,
+      body,
+      title,
       _count: {
         comments: 1
       }
