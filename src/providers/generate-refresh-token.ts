@@ -1,4 +1,4 @@
-import { AuthUserRepository } from '@/repositories/auth-prisma-repository'
+import { AuthUserRepository } from '@/repositories/implementations/auth-prisma-repository'
 
 import dayjs from 'dayjs'
 
