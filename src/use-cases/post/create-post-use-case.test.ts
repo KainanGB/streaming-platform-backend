@@ -21,5 +21,5 @@ it('should be able to create a post', async () => {
   const { post } = await createPostUseCase.execute(newPost)
 
   expect(post.authorId).toEqual(newPost.authorId)
-  expect(post.author).toEqual(newPost.author)
+  expect(post.title).toEqual(newPost.title)
 })
