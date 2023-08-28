@@ -1,8 +1,8 @@
-import { FindRefreshTokenByIdUseCase } from '../../../use-cases/authentication/find-refresh-token-by-id-use-case'
-import { RefreshController } from '@/controllers/user/refresh'
+import { FindRefreshTokenByIdUseCase } from '@/use-cases/authentication/find-refresh-token-by-id-use-case'
+import { RefreshController } from '@/controllers/authentication/refresh'
 import { GenerateAccessToken } from '@/providers/generate-access-token'
 import { GenerateRefreshToken } from '@/providers/generate-refresh-token'
-import { AuthUserRepository } from '@/repositories/auth-prisma-repository'
+import { AuthUserRepository } from '@/repositories/implementations/auth-prisma-repository'
 import { RefreshTokenUseCase } from '@/use-cases/authentication/refresh-token-use-case'
 import { DeleteRefreshTokenUseCase } from '@/use-cases/authentication/delete-refresh-token-use-case'
 
