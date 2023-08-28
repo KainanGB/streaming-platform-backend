@@ -1,4 +1,4 @@
-import { refreshControllerFactory } from '@/controllers/user/factories/make-refresh-controller-factory'
+import { refreshControllerFactory } from '@/controllers/authentication/factories/make-refresh-controller-factory'
 import { Router } from 'express'
 
 const router = Router()
