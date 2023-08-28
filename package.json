@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "test:create-prisma-environment": "pnpm link --global ./prisma/vitest-environment-prisma",
-    "test:install-prisma-environment": "pnpm link --global vitest-environment-prisma",
+    "test:install-prisma-environment": "pnpm link --global ./prisma/vitest-environment-prisma",
     "test": "vitest run -c vite.unit.config.ts",
     "test:watch": "vitest -c vite.unit.config.ts",
     "test:coverage": "vitest run --coverage",
