@@ -1,8 +1,8 @@
-import { PostPrismaRepository } from '@/repositories/post-prisma-repository'
+import { UsersPostRepository } from '@/repositories/post-repository'
 import { Prisma } from '@prisma/client'
 
 export class CreatePostUseCase {
-  constructor(private createUseCase: PostPrismaRepository) {}
+  constructor(private createUseCase: UsersPostRepository) {}
 
   async execute(data: Prisma.PostUncheckedCreateInput) {
     const post = await this.createUseCase.create(data)

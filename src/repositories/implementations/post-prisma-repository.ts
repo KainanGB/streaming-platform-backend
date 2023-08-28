@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import { UsersPostRepository } from '../post-repository'
+import { IUpdatePost, UsersPostRepository } from '../post-repository'
 import { Prisma } from '@prisma/client'
 
 export class PostPrismaRepository implements UsersPostRepository {
@@ -15,7 +15,7 @@ export class PostPrismaRepository implements UsersPostRepository {
 
     return post
   }
-  async edit(userId: string, id: string, data: Prisma.PostUpdateInput) {
+  async edit(id: string, userId: string, data: IUpdatePost) {
     const post = await prisma.post.update({
       where: { id, authorId: userId },
       data

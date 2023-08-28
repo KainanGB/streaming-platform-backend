@@ -3,8 +3,6 @@ import { Post, Prisma } from '@prisma/client'
 export type IUpdatePost = {
   title: string
   body: string
-  upvotes: number
-  downvotes: number
 }
 
 export type ICreatePost = {
