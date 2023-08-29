@@ -1,4 +1,4 @@
-import { PrismaUsersRepository } from '@/repositories/users-prisma-repository'
+import { PrismaUsersRepository } from '@/repositories/implementations/users-prisma-repository'
 import { EditUserUseCase } from '@/use-cases/users/edit-user-use-case'
 import { EditController } from '../edit'
 

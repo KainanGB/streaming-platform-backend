@@ -1,10 +1,10 @@
 import { Router } from 'express'
-import { authenticateControllerFactory } from '@/controllers/user/factories/make-authenticate-controller-factory'
+import { authenticateControllerFactory } from '@/controllers/authentication/factories/make-authenticate-controller-factory'
 
 const router = Router()
 
 const authenticateController = authenticateControllerFactory()
 
-router.post('/sessions', (req, res) => authenticateController.authenticate(req, res))
+router.post('/sessions', (req, res, next) => authenticateController.authenticate(req, res, next))
 
 export const authenticateRoutes = router

@@ -5,6 +5,8 @@ import { usersRouter } from './routes/users'
 import { authenticateRoutes } from './routes/authenticate'
 import { refreshRoutes } from './routes/refresh'
 import { verifyJWT } from './middlewares/verify-jwt'
+import { ErrorHandler } from './middlewares/error-handler'
+import { postRoutes } from './routes/posts'
 
 export const app = express()
 
@@ -15,4 +17,7 @@ app.use(authenticateRoutes)
 app.use(refreshRoutes)
 
 app.use(usersRouter)
+
 app.use(verifyJWT)
+app.use(postRoutes)
+app.use(ErrorHandler)

@@ -2,8 +2,8 @@ import { expect, it } from 'vitest'
 import { InMemoryAuthRepository } from '@/repositories/in-memory-repository/in-memory-auth-repository'
 import { FindRefreshTokenByIdUseCase } from './find-refresh-token-by-id-use-case'
 import { RefreshTokenUseCase } from './refresh-token-use-case'
-import { GenerateRefreshToken } from '@/providers/generateRefreshToken'
-import { GenerateAccessToken } from '@/providers/generateAccessToken'
+import { GenerateRefreshToken } from '@/providers/generate-refresh-token'
+import { GenerateAccessToken } from '@/providers/generate-access-token'
 import { DeleteRefreshTokenUseCase } from './delete-refresh-token-use-case'
 
 it('should correctly refresh token', async () => {

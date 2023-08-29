@@ -1,4 +1,4 @@
-import { PrismaUsersRepository } from '@/repositories/users-prisma-repository'
+import { PrismaUsersRepository } from '@/repositories/implementations/users-prisma-repository'
 import { GetAllUseCase } from '@/use-cases/users/get-all-user-use-case'
 import { GetAllController } from '../get-all'
 

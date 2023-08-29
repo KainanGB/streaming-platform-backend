@@ -10,7 +10,7 @@ export class RegisterUseCase {
     const userAlreadyExist = await this.usersRepository.findByEmail(email)
 
     if (userAlreadyExist) {
-      throw new Error('user already exists')
+      throw new Error('User already Exists')
     }
 
     const user = await this.usersRepository.create({ email, password: password_hash, username })

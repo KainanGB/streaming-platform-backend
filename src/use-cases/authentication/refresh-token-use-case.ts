@@ -1,5 +1,5 @@
-import { GenerateRefreshToken } from '@/providers/generateRefreshToken'
-import { GenerateAccessToken } from '@/providers/generateAccessToken'
+import { GenerateRefreshToken } from '@/providers/generate-refresh-token'
+import { GenerateAccessToken } from '@/providers/generate-access-token'
 import dayjs from 'dayjs'
 import { FindRefreshTokenByIdUseCase } from './find-refresh-token-by-id-use-case'
 import { DeleteRefreshTokenUseCase } from './delete-refresh-token-use-case'
