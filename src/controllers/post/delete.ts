@@ -1,5 +1,3 @@
-import { AppError } from '@/errors/app-error'
-import { HttpStatusCode } from '@/errors/http-status-code'
 import { DeletePostUseCase } from '@/use-cases/post/delete-post-use-case.ts'
 import { NextFunction, Request, Response } from 'express'
 import { z } from 'zod'
@@ -26,8 +24,7 @@ export class DeletePostController {
         post
       })
     } catch (err) {
-      const Error = err as Error
-      next(new AppError(Error.message, HttpStatusCode.BAD_REQUEST, 'error while trying to delete user', true))
+      next(err)
     }
   }
 }

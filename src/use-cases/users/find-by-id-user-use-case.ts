@@ -1,3 +1,4 @@
+import { ResourceNotFound } from '@/errors/resource-not-found'
 import { UsersRepository } from '@/repositories/users-repository'
 
 export class FindUserByIdUseCase {
@@ -6,7 +7,7 @@ export class FindUserByIdUseCase {
   async execute(id: string) {
     const user = await this.usersRepository.findById(id)
     if (!user) {
-      throw new Error('user not found')
+      throw new ResourceNotFound('find user by id')
     }
     return user
   }

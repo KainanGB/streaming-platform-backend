@@ -8,6 +8,7 @@ export class AppError extends Error {
   constructor(name: string, httpCode: HttpStatusCode, description: string, isOperational: boolean) {
     super(description)
 
+    Object.setPrototypeOf(this, AppError.prototype)
     this.name = name
     this.httpCode = httpCode
     this.isOperational = isOperational

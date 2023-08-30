@@ -1,8 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { FindUserByIdUseCase } from '@/use-cases/users/find-by-id-user-use-case'
 import { z } from 'zod'
-import { AppError } from '@/errors/app-error'
-import { HttpStatusCode } from '@/errors/http-status-code'
 
 export class FindByIdController {
   constructor(private findUserById: FindUserByIdUseCase) {}
@@ -19,8 +17,7 @@ export class FindByIdController {
 
       return res.status(202).send({ user })
     } catch (err) {
-      const Error = err as Error
-      next(new AppError(Error.message, HttpStatusCode.NOT_FOUND, 'error while trying to find user', true))
+      next(err)
     }
   }
 }

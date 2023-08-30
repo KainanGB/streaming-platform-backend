@@ -5,8 +5,16 @@ import { IUser } from '@/@types/user'
 export class PrismaUsersRepository implements UsersRepository {
   async create(data: IUser) {
     const user = await prisma.user.create({
-      data: {
-        ...data
+      data,
+      select: {
+        id: true,
+        email: true,
+        refresh_token: true,
+        username: true,
+        created_at: true,
+        subscription: true,
+        updated_at: true,
+        role: true
       }
     })
 
@@ -16,9 +24,16 @@ export class PrismaUsersRepository implements UsersRepository {
   async findByEmail(email: string) {
     const user = await prisma.user.findUnique({
       where: { email },
-      include: {
+      select: {
+        id: true,
+        email: true,
         refresh_token: true,
-        Subscription: true
+        username: true,
+        created_at: true,
+        subscription: true,
+        updated_at: true,
+        role: true,
+        password: true
       }
     })
 
@@ -28,18 +43,23 @@ export class PrismaUsersRepository implements UsersRepository {
   async findById(id: string) {
     const user = await prisma.user.findUnique({
       where: { id },
-      include: {
+      select: {
+        id: true,
+        email: true,
         refresh_token: true,
-        Subscription: true
+        username: true,
+        created_at: true,
+        subscription: true,
+        updated_at: true,
+        role: true
       }
     })
+
     if (!user) {
       return null
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ...userData } = user
-    return userData
+    return user
   }
 
   async delete(id: string) {
@@ -50,18 +70,25 @@ export class PrismaUsersRepository implements UsersRepository {
 
   async edit(data: Omit<IUser, 'password'>, id: string) {
     const user = await prisma.user.update({
-      where: {
-        id
-      },
-      data: {
-        ...data
-      }
+      where: { id },
+      data
     })
     return user
   }
 
   async getAll() {
-    const user = await prisma.user.findMany()
+    const user = await prisma.user.findMany({
+      select: {
+        id: true,
+        email: true,
+        refresh_token: true,
+        username: true,
+        created_at: true,
+        subscription: true,
+        updated_at: true,
+        role: true
+      }
+    })
     return user
   }
 }

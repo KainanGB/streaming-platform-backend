@@ -1,9 +1,9 @@
 import { IUser } from '@/@types/user'
-import { UserWithRefreshTokenAndSubscription, UsersRepository } from '../users-repository'
+import { UserCustomResponse, UsersRepository } from '../users-repository'
 import { Roles, SubscriptionStatus } from '@prisma/client'
 
 export class InMemoryUsersRepository implements UsersRepository {
-  public users: UserWithRefreshTokenAndSubscription[] = []
+  public users: UserCustomResponse[] = []
   async create(data: IUser) {
     const refreshToken = {
       id: 'abcasdds',
@@ -28,7 +28,7 @@ export class InMemoryUsersRepository implements UsersRepository {
       updated_at: new Date(),
       role: 'MEMBER' as Roles,
       refresh_token: refreshToken,
-      Subscription: subscription
+      subscription: subscription
     }
 
     this.users.push(user)
@@ -42,7 +42,12 @@ export class InMemoryUsersRepository implements UsersRepository {
       return null
     }
 
-    return user
+    const newUser = {
+      ...user,
+      password: 'dabv'
+    }
+
+    return newUser
   }
   async findById(id: string) {
     const user = this.users.find((item) => item.id === id)
@@ -73,7 +78,8 @@ export class InMemoryUsersRepository implements UsersRepository {
     }
     const postEditedUser = {
       ...user,
-      ...data
+      ...data,
+      password: 'abc'
     }
 
     this.users[userIndex] = postEditedUser

@@ -1,4 +1,5 @@
-import { AuthUserRepository } from '@/repositories/auth-prisma-repository'
+import { InvalidCredentialsError } from '@/errors/invalid-credentials-error'
+import { AuthUserRepository } from '@/repositories/implementations/auth-prisma-repository'
 
 export class FindRefreshTokenByIdUseCase {
   constructor(private authenticationRepository: AuthUserRepository) {}
@@ -7,7 +8,7 @@ export class FindRefreshTokenByIdUseCase {
     const refreshToken = await this.authenticationRepository.findTokenById(tokenId)
 
     if (!refreshToken) {
-      throw new Error('refresh token invalid')
+      throw new InvalidCredentialsError('find refresh token')
     }
 
     return { refreshToken }

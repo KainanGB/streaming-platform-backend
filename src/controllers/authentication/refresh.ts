@@ -1,8 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { z } from 'zod'
 import { RefreshTokenUseCase } from '@/use-cases/authentication/refresh-token-use-case'
-import { AppError } from '@/errors/app-error'
-import { HttpStatusCode } from '@/errors/http-status-code'
 
 export class RefreshController {
   constructor(private refreshTokenUseCase: RefreshTokenUseCase) {}
@@ -24,8 +22,7 @@ export class RefreshController {
         })
         .status(200)
     } catch (err) {
-      const Error = err as Error
-      next(new AppError(Error.message, HttpStatusCode.CONFLICT, 'error while trying to refresh token', true))
+      next(err)
     }
   }
 }

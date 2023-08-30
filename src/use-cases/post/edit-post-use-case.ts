@@ -1,3 +1,4 @@
+import { ResourceNotFound } from '@/errors/resource-not-found'
 import { IUpdatePost, UsersPostRepository } from '@/repositories/post-repository'
 
 export class EditPostUseCase {
@@ -7,7 +8,7 @@ export class EditPostUseCase {
     const post = await this.editPostUseCase.edit(postId, userId, data)
 
     if (!post) {
-      throw new Error('error while trying to edit the post')
+      throw new ResourceNotFound('edit post')
     }
 
     return { post }

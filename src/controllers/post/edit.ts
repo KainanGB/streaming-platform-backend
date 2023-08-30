@@ -1,5 +1,3 @@
-import { AppError } from '@/errors/app-error'
-import { HttpStatusCode } from '@/errors/http-status-code'
 import { EditPostUseCase } from '@/use-cases/post/edit-post-use-case'
 import { NextFunction, Request, Response } from 'express'
 import { z } from 'zod'
@@ -28,8 +26,7 @@ export class EditPostController {
         post
       })
     } catch (err) {
-      const Error = err as Error
-      next(new AppError(Error.message, HttpStatusCode.BAD_REQUEST, 'error while trying to edit post', true))
+      next(err)
     }
   }
 }

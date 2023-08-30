@@ -1,3 +1,4 @@
+import { ResourceNotFound } from '@/errors/resource-not-found'
 import { UsersPostRepository } from '@/repositories/post-repository'
 import { Prisma } from '@prisma/client'
 
@@ -8,7 +9,7 @@ export class CreatePostUseCase {
     const post = await this.createUseCase.create(data)
 
     if (!post) {
-      throw new Error('Something went wrong while creating your post')
+      throw new ResourceNotFound('create post')
     }
 
     return { post }

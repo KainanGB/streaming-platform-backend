@@ -1,4 +1,5 @@
 import { IUser } from '@/@types/user'
+import { ResourceNotFound } from '@/errors/resource-not-found'
 import { UsersRepository } from '@/repositories/users-repository'
 
 export class EditUserUseCase {
@@ -8,7 +9,7 @@ export class EditUserUseCase {
     const userExists = await this.usersRepository.findById(id)
 
     if (!userExists) {
-      throw new Error('user does not exists')
+      throw new ResourceNotFound('edit user')
     }
 
     await this.usersRepository.edit(data, id)

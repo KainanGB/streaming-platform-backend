@@ -1,4 +1,4 @@
-import { AuthUserRepository } from '@/repositories/auth-prisma-repository'
+import { AuthUserRepository } from '@/repositories/implementations/auth-prisma-repository'
 
 export class DeleteRefreshTokenUseCase {
   constructor(private authenticationRepository: AuthUserRepository) {}

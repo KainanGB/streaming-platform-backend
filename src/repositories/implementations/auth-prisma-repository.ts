@@ -14,18 +14,14 @@ export class AuthUserRepository implements AuthRepository {
 
   async findTokenById(id: string) {
     const user = await prisma.refreshToken.findFirst({
-      where: {
-        id
-      }
+      where: { id }
     })
     return user
   }
 
   async deleteToken(userId: string) {
     await prisma.refreshToken.deleteMany({
-      where: {
-        userId
-      }
+      where: { userId }
     })
   }
 }

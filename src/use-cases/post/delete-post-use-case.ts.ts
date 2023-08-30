@@ -1,3 +1,4 @@
+import { ResourceNotFound } from '@/errors/resource-not-found'
 import { UsersPostRepository } from '@/repositories/post-repository'
 
 export class DeletePostUseCase {
@@ -7,7 +8,7 @@ export class DeletePostUseCase {
     const post = await this.deletePostUseCase.delete(id, userId)
 
     if (!post) {
-      throw new Error('error while trying to delete')
+      throw new ResourceNotFound('post delete')
     }
 
     return { post }

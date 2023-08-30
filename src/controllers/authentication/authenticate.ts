@@ -4,8 +4,6 @@ import { GenerateRefreshToken } from '@/providers/generate-refresh-token'
 import { AuthenticateUseCase } from '@/use-cases/authentication/auth-use-case'
 import { z } from 'zod'
 import { DeleteRefreshTokenUseCase } from '@/use-cases/authentication/delete-refresh-token-use-case'
-import { AppError } from '@/errors/app-error'
-import { HttpStatusCode } from '@/errors/http-status-code'
 
 export class AuthenticateController {
   constructor(
@@ -20,9 +18,10 @@ export class AuthenticateController {
       email: z.string().email(),
       password: z.string().min(7)
     })
-    const { email, password } = authenticateBody.parse(req.body)
 
     try {
+      const { email, password } = authenticateBody.parse(req.body)
+
       const { user } = await this.authenticateUseCase.execute({
         email,
         password
@@ -42,7 +41,7 @@ export class AuthenticateController {
 
       return res.status(200).send({ accessToken, refreshToken })
     } catch (err) {
-      next(new AppError('Unauthorized', HttpStatusCode.UNAUTHORIZED, 'error while trying to authenticate', true))
+      next(err)
     }
   }
 }

@@ -3,6 +3,7 @@ import { GenerateAccessToken } from '@/providers/generate-access-token'
 import dayjs from 'dayjs'
 import { FindRefreshTokenByIdUseCase } from './find-refresh-token-by-id-use-case'
 import { DeleteRefreshTokenUseCase } from './delete-refresh-token-use-case'
+import { InvalidCredentialsError } from '@/errors/invalid-credentials-error'
 
 export class RefreshTokenUseCase {
   constructor(
@@ -16,7 +17,7 @@ export class RefreshTokenUseCase {
     const { refreshToken } = await this.findRefreshTokenById.execute(tokenId)
 
     if (!refreshToken) {
-      throw new Error('invalid refresh token')
+      throw new InvalidCredentialsError('refresh token')
     }
 
     const isRefreshTokenExpired = dayjs().isAfter(dayjs.unix(refreshToken.expiresIn))

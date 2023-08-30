@@ -14,11 +14,11 @@ model User {
   password      String
   created_at    DateTime      @default(now())
   updated_at    DateTime      @updatedAt
-  Post          Post[]
-  Comment       Comment[]
+  post          Post[]
+  comment       Comment[]
   role          Roles         @default(MEMBER)
   refresh_token RefreshToken?
-  Subscription  Subscription?
+  subscription  Subscription?
 
   @@map("users")
 }
